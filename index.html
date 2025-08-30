@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GoalSide Turf — Book Your Game</title>
+  <meta name="description" content="Interactive turf booking website (frontend only) with background video, dynamic slots, pricing, filters, dark mode, gallery & testimonials." />
+  <!-- Preload hero video (ensure the path exists) -->
+  <link rel="preload" as="video" href="assets/hero.mp4" />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ================= NAVBAR ================= -->
+  <nav class="nav">
+    <div class="inner container">
+      <div class="logo">
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="32" cy="32" r="30" stroke="#37a0ff" stroke-width="3"/><path d="M14 28c10 6 26 6 36 0" stroke="#00d084" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="32" r="6" fill="#00d084"/></svg>
+        GoalSide Turf
+      </div>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#booking">Book</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#testimonials">Reviews</a>
+        <a href="#manager">My Bookings</a>
+      </div>
+      <div class="actions">
+        <label class="toggle" title="Dark mode">
+          <span class="badge" id="themeLabel">Dark</span>
+          <input id="darkToggle" type="checkbox" />
+        </label>
+        <button id="primaryCta" class="btn">Book Now</button>
+        <button id="hamburger" class="hamburger" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#features">Features</a>
+      <a href="#booking">Book</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#testimonials">Reviews</a>
+      <a href="#manager">My Bookings</a>
+    </div>
+  </nav>
+
+  <!-- ================= HERO ================= -->
+  <header class="hero" id="top">
+    <video id="heroVideo" autoplay muted playsinline loop poster="assets/hero-poster.jpg">
+      <source src="assets/hero.mp4" type="video/mp4" />
+      <!-- Optional webm fallback
+      <source src="assets/hero.webm" type="video/webm" /> -->
+    </video>
+    <div class="content container">
+      <div class="badge">Open 6 AM – 11 PM · 5v5 & 7v7 Turfs</div>
+      <h1 class="headline">Book Your Turf in <em style="font-style:normal;color:var(--brand)">30 seconds</em></h1>
+      <p class="sub">Live slot availability, transparent pricing, and instant confirmation. Bring your squad and own the pitch.</p>
+      <div class="cta-row">
+        <a href="#booking" class="btn">Start Booking</a>
+        <a href="#gallery" class="btn secondary">See Facilities</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= FEATURES ================= -->
+  <section id="features">
+    <div class="container">
+      <div class="cards">
+        <div class="card">
+          <h3>Live Availability</h3>
+          <p>Dynamic time slots; overlapping bookings are auto-blocked. Local demo uses browser storage.</p>
+        </div>
+        <div class="card">
+          <h3>Smart Pricing</h3>
+          <p>Peak-hour multiplier (6–9 PM). 5‑a‑side from ₹800/hr, 7‑a‑side from ₹1200/hr. Coupons supported.</p>
+        </div>
+        <div class="card">
+          <h3>Manage Bookings</h3>
+          <p>Filter, search, cancel, and reschedule from the "My Bookings" section. Mobile‑first UI.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= BOOKING ================= -->
+  <section id="booking" class="booking">
+    <div class="container booking-grid">
+      <div class="panel">
+        <h2>Reserve a Slot</h2>
+        <div class="field">
+          <label class="label" for="name">Your Name</label>
+          <input class="input" id="name" type="text" placeholder="Sachin Sharma" required />
+        </div>
+        <div class="field">
+          <label class="label" for="date">Date</label>
+          <input class="input" id="date" type="date" required />
+        </div>
+        <div class="field">
+          <label class="label" for="turf">Turf Size</label>
+          <select id="turf" class="input" required>
+            <option value="" disabled selected>Select</option>
+            <option value="5">5‑a‑side (₹800/hr)</option>
+            <option value="7">7‑a‑side (₹1200/hr)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="label">Players</label>
+          <input class="input" id="players" type="number" min="2" max="20" value="10" />
+        </div>
+        <div class="field">
+          <label class="label">Duration</label>
+          <select id="duration" class="input">
+            <option value="1">1 hour</option>
+            <option value="2">2 hours</option>
+            <option value="3">3 hours</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="label">Pick a start time</label>
+          <div id="slotGrid" class="slot-grid" aria-live="polite"></div>
+        </div>
+        <div class="price-line">
+          <span>Coupon</span>
+          <div style="display:flex; gap:8px">
+            <input id="coupon" class="input" style="width:160px" placeholder="e.g. TURF10" />
+            <button id="applyCoupon" class="action">Apply</button>
+          </div>
+        </div>
+        <div class="price-line">
+          <span>Estimated Total</span>
+          <strong id="total">₹0</strong>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:14px">
+          <button id="reviewBtn" class="btn" style="flex:1">Review Booking</button>
+          <button id="clearBtn" class="btn secondary" style="flex:.6">Clear</button>
+        </div>
+      </div>
+      <aside class="summary">
+        <h3 style="margin-top:0">Summary</h3>
+        <dl>
+          <dt>Name</dt><dd id="s-name">—</dd>
+          <dt>Date</dt><dd id="s-date">—</dd>
+          <dt>Turf</dt><dd id="s-turf">—</dd>
+          <dt>Players</dt><dd id="s-players">—</dd>
+          <dt>Duration</dt><dd id="s-duration">—</dd>
+          <dt>Start</dt><dd id="s-start">—</dd>
+          <dt>Price</dt><dd id="s-price">₹0</dd>
+        </dl>
+        <p class="badge" id="peakNote" style="display:none; margin-top:10px">Includes peak-hour pricing</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ================= GALLERY ================= -->
+  <section id="gallery">
+    <div class="container">
+      <h2>Gallery</h2>
+      <p class="sub">Short clips & images from our facilities.</p>
+      <div class="media-grid">
+        <div class="media-card"><video src="assets/clip1.mp4" controls muted poster="assets/clip1.jpg"></video><div class="cap">Evening under lights</div></div>
+        <div class="media-card"><img src="assets/photo1.jpg" alt="Turf panorama" /><div class="cap">Freshly brushed turf</div></div>
+        <div class="media-card"><video src="assets/clip2.mp4" controls muted poster="assets/clip2.jpg"></video><div class="cap">Goal montage</div></div>
+        <div class="media-card"><img src="assets/photo2.jpg" alt="Seating" /><div class="cap">Spectator seating</div></div>
+        <div class="media-card"><video src="assets/clip3.mp4" controls muted poster="assets/clip3.jpg"></video><div class="cap">5v5 highlights</div></div>
+        <div class="media-card"><img src="assets/photo3.jpg" alt="Cafeteria" /><div class="cap">Cafe & hydration</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TESTIMONIALS ================= -->
+  <section id="testimonials">
+    <div class="container">
+      <h2>Player Reviews</h2>
+      <div class="t-slider" aria-label="Testimonials slider">
+        <div class="t-track" id="tTrack">
+          <div class="t-item">
+            <div class="t-name">Rohan • Amateur League</div>
+            <p>“Super smooth booking. Slots are accurate and the pitch quality is 🔥.”</p>
+          </div>
+          <div class="t-item">
+            <div class="t-name">Meera • Weekend Squad</div>
+            <p>“Peak hours are busy but pricing is transparent. Love the lighting!”</p>
+          </div>
+          <div class="t-item">
+            <div class="t-name">Arjun • Corporate FC</div>
+            <p>“Our team books every Friday. The reschedule/cancel flow is easy.”</p>
+          </div>
+        </div>
+        <div class="t-nav">
+          <button class="dot" data-i="0" aria-label="Slide 1"></button>
+          <button class="dot" data-i="1" aria-label="Slide 2"></button>
+          <button class="dot" data-i="2" aria-label="Slide 3"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MANAGER ================= -->
+  <section id="manager">
+    <div class="container">
+      <h2>My Bookings</h2>
+      <div class="tool-row">
+        <input id="q" class="input" placeholder="Search by name or date (YYYY-MM-DD)" style="flex:1" />
+        <select id="fTurf" class="input" style="width:180px">
+          <option value="">All turfs</option>
+          <option value="5">5‑a‑side</option>
+          <option value="7">7‑a‑side</option>
+        </select>
+        <button id="exportBtn" class="action">Export JSON</button>
+      </div>
+      <table class="table" id="table">
+        <thead><tr><th>Name</th><th>Date</th><th>Start</th><th>Dur</th><th>Turf</th><th>Players</th><th>Total</th><th>Actions</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container" style="display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap">
+      <div>© <span id="year"></span> GoalSide Turf. Demo frontend — replace media in <code>assets/</code>.</div>
+      <div>Contact: <a href="mailto:hello@goalside.example">hello@goalside.example</a></div>
+    </div>
+  </footer>
+
+  <!-- ================= MODAL ================= -->
+  <div class="modal-backdrop" id="modal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+      <header>
+        <strong id="mTitle">Confirm Your Booking</strong>
+        <button id="closeModal" class="action">✕</button>
+      </header>
+      <div class="body">
+        <div style="display:grid; gap:10px; margin-bottom:12px">
+          <div><span class="badge">Name</span> <strong id="mName"></strong></div>
+          <div><span class="badge">Date</span> <strong id="mDate"></strong></div>
+          <div><span class="badge">Start</span> <strong id="mStart"></strong></div>
+          <div><span class="badge">Duration</span> <strong id="mDur"></strong></div>
+          <div><span class="badge">Turf</span> <strong id="mTurf"></strong></div>
+          <div><span class="badge">Players</span> <strong id="mPlayers"></strong></div>
+          <div><span class="badge">Total</span> <strong id="mTotal"></strong></div>
+        </div>
+        <div style="display:flex; gap:10px">
+          <button id="confirmBtn" class="btn" style="flex:1">Confirm & Save</button>
+          <button id="cancelBtn" class="btn secondary" style="flex:.7">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Saved.</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
